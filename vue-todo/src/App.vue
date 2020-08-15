@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
-    <TodoList :todoItems="todoItems" v-on:removeItem="removeOneItem"></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoInput @addTodoItem="addOneItem"></TodoInput>
+    <TodoList :todoItems="todoItems" @removeItem="removeOneItem" @toggleItem="toggleOneItem"></TodoList>
+    <TodoFooter @clearAll="clearAllItems"></TodoFooter>
   </div>
 </template>
 
@@ -25,8 +25,18 @@ export default {
       this.todoItems.push(obj);
     },
     removeOneItem: function (todoItem, index) {
-      localStorage.removeItem(todoItem);
+      localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1);
+    },
+    toggleOneItem: function (todoItem, index) {
+      // todoItem.completed = !todoItem.completed;
+      this.todoItems[index].completed = !this.todoItems[index].completed;
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+    clearAllItems: function () {
+      localStorage.clear();
+      this.todoItems = [];
     },
   },
   created: function () {
