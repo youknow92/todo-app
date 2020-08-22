@@ -9,7 +9,7 @@
         경고!
         <i class="closeModalBtn fas fa-times" @click="showModal = false"></i>
       </h3>
-      <h3 slot="body">바디!</h3>
+      <h3 slot="body">입력된 내용이 없습니다.</h3>
     </Modal>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem !== "") {
-        this.$emit("addTodoItem", this.newTodoItem);
+        this.$store.commit("addOneItem", this.newTodoItem);
         this.clearInput();
       } else {
         this.showModal = !this.showModal;
